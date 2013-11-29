@@ -1,9 +1,32 @@
 javadoc2ceylondoc
 =================
 
-A small Ceylon tool to convert javadoc to ceylondoc in certain scenarios.
+This tool converts javadoc-style comments into ceylondoc-style comments. Example:
+
+Input:
+```ceylon
+/**
+ * The best program ever
+ *
+ * well, if you’re a fan of programs that are too lazy for even a proper hello world, that is.
+ */
+shared void run() {
+    print("hi");
+}
+```
+Output:
+```ceylon
+"The best program ever
+ 
+ well, if you’re a fan of programs that are too lazy for even a proper hello world, that is."
+shared void run() {
+    print("hi");
+}
+```
 
 Usage
 -----
 
-At the moment, this tool can only convert single-line comments without any formatting. Additionally, the resulting ceylon doc always starts right at the beginning of the line and isn’t indented (which is syntactically correct, but ugly).
+`ceylon run javadoc2ceylondoc inputFileName outputFileName`
+
+If inputFileName and/or outputFileName are missing, `/dev/stdin` and `/dev/stdout` are used instead, but special files aren’t (yet) supported by the Ceylon SDK (see [ceylonceylon-sdk#121](https://github.com/ceylon/ceylon-sdk/issues/121)), so at the moment you can’t pipe code into javadoc2ceylondoc.
