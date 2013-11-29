@@ -19,6 +19,7 @@ void run() {
 		throw Exception("Invalid output!");
 	}
 	variable Boolean inComment = false;
+	variable Boolean writingComment = false;
 	output.open();
 	while (exists line = input.readLine()) {
 		if (line == "/**") {
@@ -26,9 +27,18 @@ void run() {
 		} else {
 			if (inComment) {
 				if (line == " */") {
+					output.writeLine("\"");
+					writingComment = false;
 					inComment = false;
 				} else {
-					output.writeLine("\"``line.trimLeading((Character elem) => elem.whitespace || elem == '*')``\"");
+					if (writingComment) {
+						output.writeLine();
+						output.write(" ");
+					} else {
+						writingComment = true;
+						output.write("\"");
+					}
+					output.write("``line.trimLeading((Character elem) => elem.whitespace || elem == '*')``");
 				}
 			} else {
 				output.writeLine(line);
