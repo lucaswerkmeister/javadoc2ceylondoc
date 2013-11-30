@@ -77,7 +77,7 @@ void run() {
 						writingComment = true;
 						output.write("\"");
 					}
-					output.write("``line.trimLeading((Character elem) => elem.whitespace || elem == '*')``");
+					output.write(line.trimLeading((Character elem) => elem.whitespace || elem == '*'));
 				}
 			} else {
 				output.writeLine(line);
