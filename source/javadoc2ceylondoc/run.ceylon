@@ -33,11 +33,39 @@ void run() {
 	variable Boolean writingComment = false;
 	output.open();
 	while (exists line = input.readLine()) {
-		if (line == "/**") {
+		String trimmedLine = line.trimmed;
+		if (trimmedLine.startsWith("/**")) {
 			inComment = true;
+			if (trimmedLine.longerThan(3)) {
+				// there’s something behind the /** like this
+				if (trimmedLine.endsWith("*/")) {
+					// it’s a one-line comment /** like this */
+					output.write("\"");
+					output.write(trimmedLine[3..trimmedLine.size-3].trimmed);
+					output.writeLine("\"");
+					inComment = false;
+				} else {
+					writingComment = true;
+					output.write("\"");
+					output.write(trimmedLine[3...].trimLeading(Character.whitespace));
+				}
+			}
 		} else {
 			if (inComment) {
-				if (line == " */") {
+				if (trimmedLine.endsWith("*/")) {
+					if (trimmedLine.longerThan(2)) {
+						// there’s something before the */
+						if (writingComment) {
+							output.writeLine();
+							output.write(" ");
+						} else {
+							writingComment = true;
+							output.write("\"");
+						}
+						output.write(trimmedLine[...trimmedLine.size-3]
+								.trimLeading((Character elem) => elem.whitespace || elem == '*')
+								.trimTrailing(Character.whitespace));
+					}
 					output.writeLine("\"");
 					writingComment = false;
 					inComment = false;
