@@ -2,14 +2,15 @@
 class Converter() {
     SequenceBuilder<String> lines = SequenceBuilder<String>();
     SequenceBuilder<String> authors = SequenceBuilder<String>();
+    variable SequenceBuilder<String> current = lines;
 
     "Add a javadoc-formatted line."
-    shared void addLine(String line) {
+    shared void addLine(variable String line) {
         if (line.startsWith("@author")) {
-            authors.append(line["@author".size...].trimmed);
-        } else {
-            lines.append(line);
+            current = authors;
+            line = line["@author".size...].trimmed;
         }
+        current.append(line);
     }
 
     "Returns all added lines, converted to ceylondoc format."
