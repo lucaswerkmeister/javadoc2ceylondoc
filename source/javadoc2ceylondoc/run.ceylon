@@ -24,7 +24,12 @@ void run() {
 	} else {
 		throw Exception("Invalid output!");
 	}
+	"When we’re in a comment, we parse the input lines – otherwise, we just pass them through."
 	variable Boolean inComment = false;
+	"When we’re already writing a comment, we need to terminate the previous line
+	 and then write one space before our own line.
+	 When we’re just at the start of a comment, we don’t need to terminate the previous line,
+	 but we need to open the string quotes."
 	variable Boolean writingComment = false;
 	output.open();
 	while (exists line = input.readLine()) {
