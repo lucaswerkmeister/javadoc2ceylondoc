@@ -24,6 +24,11 @@ shared void run() {
 }
 ```
 
+Processed elements
+------------------
+
+* `@author` → `by`
+
 Usage
 -----
 
@@ -35,7 +40,6 @@ TODO
 ----
 
 * `@param` → parameter doc
-* `@author` → `by`
 * `@throws` → `throws`
 * `@see` → `see`
 * `{@link}` → `[[]]`
