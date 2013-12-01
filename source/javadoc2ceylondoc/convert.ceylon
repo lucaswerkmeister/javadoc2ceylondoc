@@ -8,12 +8,14 @@ shared void convert(Reader input, Writer output) {
      When we’re just at the start of a comment, we don’t need to terminate the previous line,
      but we need to open the string quotes."
     variable Boolean writingComment = false;
+    variable String indent = "";
     variable Converter converter = Converter();
     output.open();
     while (exists line = input.readLine()) {
         String trimmedLine = line.trimmed;
         if (trimmedLine.startsWith("/**")) {
             inComment = true;
+            indent = line[...(line.indexes((Character c) => !c.whitespace).first else 0)-1];
             converter = Converter();
             if (trimmedLine.longerThan(3)) {
                 // there’s something behind the /** like this
@@ -36,7 +38,10 @@ shared void convert(Reader input, Writer output) {
                                 .trimLeading((Character elem) => elem.whitespace || elem == '*')
                                 .trimTrailing(Character.whitespace));
                     }
-                    output.writeLine(converter.getCeylondoc());
+                    String ceylondoc = converter.getCeylondoc();
+                    // prepend indent to each line
+                    String indentedCeylondoc = "\n".join(ceylondoc.split(Character.equals('\n')).map(String.plus(indent)));
+                    output.writeLine(indentedCeylondoc);
                     writingComment = false;
                     inComment = false;
                 } else {
