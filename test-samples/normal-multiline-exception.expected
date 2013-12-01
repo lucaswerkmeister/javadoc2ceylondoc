@@ -1,0 +1,4 @@
+"line 1"
+throws(`class Exception`, "if this
+                           or that happens")
+throws(`class ArgumentException`, "if something else happens")

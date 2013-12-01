@@ -1,0 +1,7 @@
+/**
+ * line 1
+ *
+ * @throws Exception if this
+ *                   or that happens
+ * @exception ArgumentException if something else happens
+ */
