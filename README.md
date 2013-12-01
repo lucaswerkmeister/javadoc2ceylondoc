@@ -33,7 +33,7 @@ Processed elements
 Usage
 -----
 
-`ceylon run javadoc2ceylondoc inputFileName outputFileName`
+`ceylon run herd.javadoc2ceylondoc inputFileName outputFileName`
 
 If inputFileName and/or outputFileName are missing, `/dev/stdin` and `/dev/stdout` are used instead, but special files aren’t (yet) supported by the Ceylon SDK (see [ceylon/ceylon-sdk#121](https://github.com/ceylon/ceylon-sdk/issues/121)), so at the moment you can’t pipe code into javadoc2ceylondoc.
 

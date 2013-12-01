@@ -1,4 +1,4 @@
-import javadoc2ceylondoc { convert }
+import herd.javadoc2ceylondoc { convert }
 import ceylon.test { assertEquals, test }
 import ceylon.file { Directory, File, parsePath, Reader, Writer }
 
