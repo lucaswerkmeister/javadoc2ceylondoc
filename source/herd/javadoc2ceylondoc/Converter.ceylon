@@ -2,6 +2,7 @@
 class Converter() {
     SequenceBuilder<String> linesBuilder = SequenceBuilder<String>();
     SequenceBuilder<String> authorsBuilder = SequenceBuilder<String>();
+    SequenceBuilder<String> seeBuilder = SequenceBuilder<String>();
     SequenceBuilder<[String, SequenceBuilder<String>]> exceptionsBuilder = SequenceBuilder<[String, SequenceBuilder<String>]>();
     variable SequenceBuilder<String> current = linesBuilder;
 
@@ -10,6 +11,12 @@ class Converter() {
         if (line.startsWith("@author")) {
             current = authorsBuilder;
             line = line["@author".size...].trimmed;
+        } else if (line.startsWith("@see")) {
+            current = seeBuilder;
+            String? identifier = line["@see".size...].trimmed.split(' '.equals).first; // @see Class#method() description text – ditch the description text
+            "Empty @see tags are not allowed"
+            assert(exists identifier);
+            line = identifier.trimmed;
         } else if (line.startsWith("@throws") || line.startsWith("@exception")) {
             SequenceBuilder<String> newBuilder = SequenceBuilder<String>();
             current = newBuilder;
@@ -26,6 +33,7 @@ class Converter() {
     shared String getCeylondoc() {
         String[] lines = linesBuilder.sequence.trimTrailing((String elem) => elem.empty || elem.every(Character.whitespace));
         String[] authors = authorsBuilder.sequence;
+        String[] sees = seeBuilder.sequence;
         [String, String[]][] exceptions = exceptionsBuilder.sequence.collect(([String, SequenceBuilder<String>] elem) => [elem[0], elem[1].sequence]);
         StringBuilder ret = StringBuilder();
         ret.append("\"");
@@ -45,6 +53,56 @@ class Converter() {
                 ret.append("\"");
             }
             ret.append(")");
+        }
+        for (see in sees) {
+            ret.append("\nsee(`");
+            variable Boolean hadPeriod = true;
+            "The *base name* of the identifier, without any package prefixes.
+             
+             Package names are assumed to begin with a lowercase letter, while
+             class names are assumed to begin with an uppercase letter; for example,
+             the identifier `java.lang.String.toString()` would be turned into
+             `String.toString()`."
+            String basename = see.trimLeading((Character c) {
+                if (hadPeriod) {
+                    hadPeriod = false;
+                    if (c.uppercase) {
+                        // beginning of a class name
+                        return false;
+                    }
+                } else if (c == '.') {
+                    hadPeriod = true;
+                }
+                return true;
+            });
+            "Trailing period is not allowed"
+            assert (!basename.empty);
+            if (exists parenIndex = basename.indexes('('.equals).first) {
+                // it’s a function (or a constructor, but they can’t be helped)
+                ret.append("function ");
+                ret.append(basename[...parenIndex-1]); // strip the parentheses
+            } else {
+                // we have to look at the last part to determine if it’s a class or a value
+                String lastPart;
+                if (exists periodIndex = basename.indexes('.'.equals).last) {
+                    // this happens for inner / nested classes
+                    lastPart = basename[periodIndex+1...];
+                } else {
+                    lastPart = basename;
+                }
+                "Trailing period is not allowed"
+                assert (exists firstChar = lastPart.first);
+                if (firstChar.uppercase) {
+                    // looks like a class
+                    ret.append("class ");
+                    ret.append(basename); // yes, basename, not lastPart.
+                } else {
+                    // looks like a value
+                    ret.append("value ");
+                    ret.append(basename);
+                }
+            }
+            ret.append("`)");
         }
         for (exception in exceptions) {
             ret.append("\nthrows(`class ");
