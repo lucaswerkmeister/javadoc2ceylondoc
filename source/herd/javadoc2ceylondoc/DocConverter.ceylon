@@ -1,5 +1,5 @@
-"The converter takes javadoc-formatted lines and converts them to ceylon lines."
-class Converter() {
+"The `DocConverter` converts a javadoc comment into Ceylon documentation."
+class DocConverter() {
     SequenceBuilder<String> linesBuilder = SequenceBuilder<String>();
     SequenceBuilder<String> authorsBuilder = SequenceBuilder<String>();
     SequenceBuilder<String> seeBuilder = SequenceBuilder<String>();

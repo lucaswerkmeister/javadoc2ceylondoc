@@ -9,24 +9,24 @@ shared void convert(Reader input, Writer output) {
      but we need to open the string quotes."
     variable Boolean writingComment = false;
     variable String indent = "";
-    variable Converter converter = Converter();
+    variable DocConverter docConverter = DocConverter();
     output.open();
     while (exists line = input.readLine()) {
         String trimmedLine = line.trimmed;
         if (trimmedLine.startsWith("/**")) {
             inComment = true;
             indent = line[...(line.indexes((Character c) => !c.whitespace).first else 0)-1];
-            converter = Converter();
+            docConverter = DocConverter();
             if (trimmedLine.longerThan(3)) {
                 // there’s something behind the /** like this
                 if (trimmedLine.endsWith("*/")) {
                     // it’s a one-line comment /** like this */
-                    converter.addLine(trimmedLine[3..trimmedLine.size-3].trimmed);
-                    output.writeLine(converter.getCeylondoc());
+                    docConverter.addLine(trimmedLine[3..trimmedLine.size-3].trimmed);
+                    output.writeLine(docConverter.getCeylondoc());
                     inComment = false;
                 } else {
                     writingComment = true;
-                    converter.addLine(trimmedLine[3...].trimLeading(Character.whitespace));
+                    docConverter.addLine(trimmedLine[3...].trimLeading(Character.whitespace));
                 }
             }
         } else {
@@ -34,18 +34,18 @@ shared void convert(Reader input, Writer output) {
                 if (trimmedLine.endsWith("*/")) {
                     if (trimmedLine.longerThan(2)) {
                         // there’s something before the */
-                        converter.addLine(trimmedLine[...trimmedLine.size-3]
+                        docConverter.addLine(trimmedLine[...trimmedLine.size-3]
                                 .trimLeading((Character elem) => elem.whitespace || elem == '*')
                                 .trimTrailing(Character.whitespace));
                     }
-                    String ceylondoc = converter.getCeylondoc();
+                    String ceylondoc = docConverter.getCeylondoc();
                     // prepend indent to each line
                     String indentedCeylondoc = "\n".join(ceylondoc.split(Character.equals('\n')).map(String.plus(indent)));
                     output.writeLine(indentedCeylondoc);
                     writingComment = false;
                     inComment = false;
                 } else {
-                    converter.addLine(line.trimLeading((Character elem) => elem.whitespace || elem == '*'));
+                    docConverter.addLine(line.trimLeading((Character elem) => elem.whitespace || elem == '*'));
                 }
             } else {
                 output.writeLine(line);
