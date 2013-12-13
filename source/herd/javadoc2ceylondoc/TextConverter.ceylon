@@ -3,7 +3,7 @@ import java.util.regex { Pattern { compilePattern=compile }, Matcher }
 
 "Converts javadoc/HTML text to Ceylon/Markdown."
 String convertText(String text) {
-    return convertLink(text);
+    return convertCode(convertLink(text));
 }
 
 "Converts
@@ -33,6 +33,22 @@ String convertLink(String text) {
         }
         String ceylonRef = "::".join(splitJavaRef(javaRef.replace("#", ".")));
         m.appendReplacement(sb, "[[``labelString + ceylonRef``]]");
+    }
+    m.appendTail(sb);
+    return sb.string;
+}
+
+"""Converts
+       bla {@code "foo bar".split()}
+   into
+       bla `"foo bar".split()`"""
+String convertCode(String text) {
+    Pattern p = compilePattern("\\{@code ([^}]*)}");
+    Matcher m = p.matcher(JString(text)); // wrap the string because a Ceylon string is not a CharSequence
+    StringBuffer sb = StringBuffer();
+    while(m.find()) {
+        String code = m.group(1);
+        m.appendReplacement(sb, "```code```");
     }
     m.appendTail(sb);
     return sb.string;

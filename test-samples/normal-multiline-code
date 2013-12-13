@@ -1,0 +1,6 @@
+/**
+ * some {@code code} here
+ *
+ * this tests the parsing of {@code @code} tags.
+ * {@code Here's a longer one}
+ */
