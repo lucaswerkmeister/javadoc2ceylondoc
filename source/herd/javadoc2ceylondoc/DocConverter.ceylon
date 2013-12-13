@@ -26,7 +26,7 @@ class DocConverter() {
             line = line[sep+1...].trimmed;
             exceptionsBuilder.append([exception, current]);
         }
-        current.append(line);
+        current.append(convertText(line));
     }
 
     "Returns all added lines, converted to ceylondoc format."

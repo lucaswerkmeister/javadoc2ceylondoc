@@ -1,0 +1,8 @@
+/**
+ * line 1
+ *
+ * @link{java.lang.String}
+ * @link{File.Appender.write() write method}
+ * @link{java.lang.Integer.parseInt(String s) text to int}
+ * @link{MySingleton.instance}
+ */

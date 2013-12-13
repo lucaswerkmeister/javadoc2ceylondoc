@@ -1,0 +1,6 @@
+"line 1
+ 
+ [[java.lang::String]]
+ [[write method|File.Appender.write]]
+ [[text to int|java.lang::Integer.parseInt]]
+ [[MySingleton.instance]]"
