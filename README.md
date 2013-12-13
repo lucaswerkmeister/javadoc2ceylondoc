@@ -30,7 +30,7 @@ Processed elements
 * `@author` → `by`
 * `@throws` → `throws`
 * `@see` → `see`
-* `@link` → `[[]]`
+* `{@link}` → `[[]]`
 
 Usage
 -----
