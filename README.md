@@ -32,6 +32,10 @@ Processed elements
 * `@see` → `see`
 * `{@link}` → `[[]]`
 * `{@code}` → \`\`
+* HTML:
+  * `<b>`: **bold**
+  * `<i>`: *italics*
+  * `<tt>`: `monospaced`
 
 Usage
 -----
@@ -44,4 +48,3 @@ TODO
 ----
 
 * `@param` → parameter doc
-* possibly: some HTML processing. Markdown can contain HTML, but for basic elements like `<b>`, `<i>`, `<code>` or `<tt>` it might make the comment more readable.

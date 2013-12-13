@@ -3,7 +3,7 @@ import java.util.regex { Pattern { compilePattern=compile }, Matcher }
 
 "Converts javadoc/HTML text to Ceylon/Markdown."
 String convertText(String text) {
-    return convertCode(convertLink(text));
+    return convertHtml(convertCode(convertLink(text)));
 }
 
 "Converts
@@ -52,6 +52,13 @@ String convertCode(String text) {
     }
     m.appendTail(sb);
     return sb.string;
+}
+
+String convertHtml(String text) {
+    return text
+        .replace("<tt>", "`").replace("</tt>", "`")
+        .replace("<b>", "**").replace("</b>", "**")
+        .replace("<i>", "*").replace("</i>", "*");
 }
 
 "Splits a String of the form
