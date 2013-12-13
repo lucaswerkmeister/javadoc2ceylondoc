@@ -3,6 +3,14 @@ import java.util.regex { Pattern { compilePattern=compile }, Matcher }
 
 "Converts javadoc/HTML text to Ceylon/Markdown."
 String convertText(String text) {
+    return convertLink(text);
+}
+
+"Converts
+     bla {@link bar baz} blub
+ into
+     bla [[baz|bar]] blub"
+String convertLink(String text) {
     "This pattern splits
          {@link java.lang.Integer.parseInt(String s) string2int method}
      into the groups
