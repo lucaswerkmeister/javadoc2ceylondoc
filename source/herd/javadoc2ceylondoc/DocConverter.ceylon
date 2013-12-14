@@ -35,13 +35,14 @@ class DocConverter() {
         String[] authors = authorsBuilder.sequence;
         String[] sees = seeBuilder.sequence;
         [String, String[]][] exceptions = exceptionsBuilder.sequence.collect(([String, SequenceBuilder<String>] elem) => [elem[0], elem[1].sequence]);
+        
         StringBuilder ret = StringBuilder();
         ret.append("\"");
-        ret.append(lines.first else "");
-        for (line in lines.rest) {
-            ret.append("\n ");
-            ret.append(line);
-        }
+        ret.append(
+            "\n ".join(
+                convertParagraphs(
+                    "\n".join(lines))
+                        .split{'\n'.equals; groupSeparators = false;}));
         ret.append("\"");
         if (nonempty authors) {
             ret.append("\nby(\"");

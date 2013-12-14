@@ -61,6 +61,17 @@ String convertHtml(String text) {
         .replace("<i>", "*").replace("</i>", "*");
 }
 
+String convertParagraphs(String text) {
+    Pattern p = compilePattern("\\n?</p>\\s*<p>\\n?");
+    Matcher m = p.matcher(JString(text)); // wrap the string because a Ceylon string is not a CharSequence
+    StringBuffer sb = StringBuffer();
+    while(m.find()) {
+        m.appendReplacement(sb, "</p>\n\n<p>");
+    }
+    m.appendTail(sb);
+    return sb.string.replace("<p>", "").replace("</p>", "").trim('\n'.equals);
+}
+
 "Splits a String of the form
      foo.bar.package.Class.method
  into

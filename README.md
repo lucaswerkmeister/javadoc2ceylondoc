@@ -36,6 +36,7 @@ Processed elements
   * `<b>`: **bold**
   * `<i>`: *italics*
   * `<tt>`: `monospaced`
+  * `<p>`: Markdown paragraphs
 
 Usage
 -----
