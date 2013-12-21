@@ -1,5 +1,12 @@
 import ceylon.file { parsePath, Resource, Link, File, Nil, Reader, Writer }
-void run() {
+"Run javadoc2ceylondoc.
+ 
+ [[arguments|process.arguments]] should be:
+ 1. input file
+ 2. output file"
+throws(`class Exception`, "If the input or output file are invalid,
+                           i. e. can’t be read/written")
+shared void run() {
     String inFileName = process.arguments[0] else "/dev/stdin";
     String outFileName = process.arguments[1] else process.arguments[0] else "/dev/stdout";
     Reader inputReader;
