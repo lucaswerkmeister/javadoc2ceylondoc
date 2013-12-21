@@ -1,5 +1,8 @@
 import ceylon.file { Writer }
 
+"Convert Javadoc in the [[input]] to Ceylon doc.
+ 
+ Non-javadoc lines are passed through verbatim."
 shared void convert(String input, Writer output) {
     "When we’re in a comment, we parse the input lines – otherwise, we just pass them through."
     variable Boolean inComment = false;
