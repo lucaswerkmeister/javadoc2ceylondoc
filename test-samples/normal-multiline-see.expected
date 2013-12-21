@@ -2,4 +2,5 @@
 see(`class String`)
 see(`function File.Appender.write`)
 see(`function Integer.parseInt`)
+see(`function String.replace`)
 see(`value MySingleton.instance`)

@@ -2,7 +2,8 @@
  * line 1
  *
  * @see java.lang.String
- * @see File.Appender.write()
- * @see java.lang.Integer.parseInt(String s)
+ * @see File.Appender#write()
+ * @see java.lang.Integer#parseInt(String)
+ * @see String#replace(CharSequence, CharSequence)
  * @see MySingleton.instance
  */

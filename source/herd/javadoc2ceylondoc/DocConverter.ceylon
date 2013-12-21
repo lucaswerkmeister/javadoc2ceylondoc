@@ -62,9 +62,9 @@ class DocConverter() {
              
              Package names are assumed to begin with a lowercase letter, while
              class names are assumed to begin with an uppercase letter; for example,
-             the identifier `java.lang.String.toString()` would be turned into
+             the identifier `java.lang.String#toString()` would be turned into
              `String.toString()`."
-            String basename = see.trimLeading((Character c) {
+            String basename = see.replace("#", ".").trimLeading((Character c) {
                 if (hadPeriod) {
                     hadPeriod = false;
                     if (c.uppercase) {
