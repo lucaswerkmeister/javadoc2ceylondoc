@@ -18,10 +18,6 @@ void testFile(File inFile) {
         
         object output satisfies Writer {
             
-            shared actual void destroy() {}
-            
-            shared actual void flush() {}
-            
             variable String currentLine = "";
             
             shared actual void write(String string) {
@@ -37,9 +33,16 @@ void testFile(File inFile) {
                 currentLine = "";
             }
             
+            shared actual void flush() => writeLine("");
+            
+            shared actual void destroy() => flush();            
         }
         
-        convert(input, output);
+        StringBuilder inStringBuilder = StringBuilder();
+        while (exists line = input.readLine()) {
+            inStringBuilder.append(line).appendNewline();
+        }
+        convert(inStringBuilder.string.trimTrailing('\n'.equals), output);
         
         assertEquals(expected.readLine(), null);
     } catch (AssertionException e) {

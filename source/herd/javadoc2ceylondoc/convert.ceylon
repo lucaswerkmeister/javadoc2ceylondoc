@@ -1,6 +1,6 @@
-import ceylon.file { Reader, Writer }
+import ceylon.file { Writer }
 
-shared void convert(Reader input, Writer output) {
+shared void convert(String input, Writer output) {
     "When we’re in a comment, we parse the input lines – otherwise, we just pass them through."
     variable Boolean inComment = false;
     "When we’re already writing a comment, we need to terminate the previous line
@@ -11,7 +11,10 @@ shared void convert(Reader input, Writer output) {
     variable String indent = "";
     variable DocConverter docConverter = DocConverter();
     output.open();
-    while (exists line = input.readLine()) {
+    for (String line in input.split{
+        '\n'.equals;
+        groupSeparators = false;
+    }) {
         String trimmedLine = line.trimmed;
         if (trimmedLine.startsWith("/**")) {
             inComment = true;

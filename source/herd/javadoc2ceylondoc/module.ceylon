@@ -89,7 +89,6 @@
    Limitations
    ===========
    
-   * if `inputFile` and `outputFile` are the same, the result will be empty.
    * `@return` isn’t parsed.
    * `@param` isn’t parsed. Since this is not possible in the current architecture
      (it requires text manipulation inside the parameter list), it has been postponed to 1.1.
