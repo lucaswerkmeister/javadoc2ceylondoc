@@ -100,7 +100,7 @@
      something like that, the resulting ceylondoc might have weird identifiers.
      (In other words, if you don’t need`\i`/`\I` in your Ceylon code, you’ll be fine.) 
    """
-module herd.javadoc2ceylondoc "1.0.0" {
+module herd.javadoc2ceylondoc "1.0.1" {
     shared import ceylon.file "1.0.0";
     import java.base "7"; // for regexes
 }
