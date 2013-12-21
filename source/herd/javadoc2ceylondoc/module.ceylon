@@ -12,6 +12,8 @@
    You have already updated all the code, but you don’t feel like rewriting all the documentation.
    What you currently have is this:
    ~~~ceylon
+   import java.util { Date }
+   
    /**
    * A person.
    * 
