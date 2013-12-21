@@ -5,12 +5,16 @@ import ceylon.file { Directory, File, parsePath, Reader, Writer }
 test
 shared void testFiles() {
     assert (is Directory dir = parsePath("test-samples").resource);
+    variable Boolean success = true;
     for (file in dir.files().filter((File file) => !file.name.endsWith("expected"))) {
-        testFile(file);
+        success = testFile(file) && success;
+    }
+    if (!success) {
+        throw AssertionException("At least one test failed!");
     }
 }
 
-void testFile(File inFile) {
+Boolean testFile(File inFile) {
     try {
         Reader input = inFile.Reader();
         assert (is File expectedFile = inFile.path.parent.childPath(inFile.name + ".expected").resource);
@@ -45,7 +49,9 @@ void testFile(File inFile) {
         convert(inStringBuilder.string.trimTrailing('\n'.equals), output);
         
         assertEquals(expected.readLine(), null);
+        return true;
     } catch (AssertionException e) {
         process.writeErrorLine("Test for file ``inFile`` FAILED: ``e.message``");
+        return false;
     }
 }
